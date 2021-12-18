@@ -102,13 +102,21 @@ void Add_Branch(struct Tree*& Branch, int value)
 	}
 	else
 	{
-		if (value < Branch->value)
+		if (value == Branch->value)
 		{
-			Add_Branch(Branch->LeftBranch, value);
+			cout << "\n\t\tТакое значение уже есть в дереве!\n\n";
+			return;
 		}
 		else
 		{
-			Add_Branch(Branch->RightBranch, value);
+			if (value < Branch->value)
+			{
+				Add_Branch(Branch->LeftBranch, value);
+			}
+			else
+			{
+				Add_Branch(Branch->RightBranch, value);
+			}
 		}
 	}
 }
