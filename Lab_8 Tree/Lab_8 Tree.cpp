@@ -14,7 +14,7 @@ struct Tree
 };
 
 void Add_Branch(Tree*& Branch, int value);
-void Print(Tree* Branch);
+void Print_Tree(Tree* Branch);
 
 int main()
 {
@@ -24,41 +24,41 @@ int main()
 	int value;
 	int cin_menu = 0;
 
-	menu:
+menu:
 	cout
 		<< "1 - Добавление в дерево;\n"
 		<< "2 - Вывод  дерева;\n"
 		<< "Выбор: ";
 	cin >> cin_menu;
-	
+
 
 	switch (cin_menu)
 	{
-		case 1:
-		{
-			cout << "Введите значение: "; cin >> value;
-			Add_Branch(root, value);
-			cout << "\n\t\tДобавление выполнено!\n\n";
-			system("pause");
-			system("cls");
-			goto menu;
-		}
-
-		case 2:
-		{
-			Print(root);
-			system("pause");
-			cout << "\n\t\tВывод завершен!\n\n";
-			system("cls");
-			goto menu;
-		}
-
-		default:
-		{
-			cout << "Происходит выход...\n\n";
-		}
+	case 1:
+	{
+		cout << "Введите значение: "; cin >> value;
+		Add_Branch(root, value);
+		cout << "\n\t\tДобавление выполнено!\n\n";
+		system("pause");
+		system("cls");
+		goto menu;
 	}
-		
+
+	case 2:
+	{
+		Print_Tree(root);
+		system("pause");
+		cout << "\n\t\tВывод завершен!\n\n";
+		system("cls");
+		goto menu;
+	}
+
+	default:
+	{
+		cout << "Происходит выход...\n\n";
+	}
+	}
+
 
 
 
@@ -77,7 +77,7 @@ void Add_Branch(Tree*& Branch, int value)
 		Branch->RightBranch = NULL;
 		return;
 	}
-	else 
+	else
 	{
 		if (value < Branch->value)
 		{
@@ -90,19 +90,20 @@ void Add_Branch(Tree*& Branch, int value)
 	}
 }
 
-//Функция вывода дерева
-void Print(Tree* Branch)
+
+void Print_Tree(Tree* Branch)
 {
-	if (!Branch) return; //Если ветки не существует - выходим. Выводить нечего
-	tabs += 5; //Иначе увеличим счетчик рекурсивно вызванных процедур
-	//Который будет считать нам отступы для красивого вывода
-
-	Print(Branch->LeftBranch); //Выведем ветку и ее подветки слева
-
-	for (int i = 0; i < tabs; i++) cout << " "; //Потом отступы
-	cout << Branch->value << endl; //Данные этой ветки
-
-	Print(Branch->RightBranch);//И ветки, что справа
-
-	tabs -= 5; //После уменьшим кол-во отступов
+	if (Branch == NULL)
+	{
+		return;
+	}
+	tabs += 5;
+	Print_Tree(Branch->RightBranch);
+	for (int i = 0; i < tabs; i++)
+	{
+		cout << " ";
+	}
+	cout << Branch->value << endl;
+	Print_Tree(Branch->LeftBranch);
+	tabs -= 5;
 }
