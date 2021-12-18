@@ -13,8 +13,9 @@ struct Tree
 	Tree* RightBranch;
 };
 
-void Add_Branch(Tree*& Branch, int value);
-void Print_Tree(Tree* Branch);
+void Add_Branch(struct Tree*& Branch, int value);
+void Print_Tree(struct Tree* Branch);
+Tree* Delete_Tree(struct Tree* Branch);
 
 int main()
 {
@@ -27,47 +28,69 @@ int main()
 menu:
 	cout
 		<< "1 - Добавление в дерево;\n"
-		<< "2 - Вывод  дерева;\n"
+		<< "2 - Вывод дерева;\n"
+		<< "3 - Срубить дерево;\n"
 		<< "Выбор: ";
 	cin >> cin_menu;
 
 
 	switch (cin_menu)
 	{
-	case 1:
-	{
-		cout << "Введите значение: "; cin >> value;
-		Add_Branch(root, value);
-		cout << "\n\t\tДобавление выполнено!\n\n";
-		system("pause");
-		system("cls");
-		goto menu;
+		case 1:
+		{
+			cout << "Введите значение: "; cin >> value;
+			Add_Branch(root, value);
+			cout << "\n\t\tДобавление выполнено!\n\n";
+			system("pause");
+			system("cls");
+			goto menu;
+		}
+
+		case 2:
+		{
+			if (root == NULL)
+			{
+				cout << "\n\t\tВыводить нечего!\n\n";
+			}
+			else
+			{
+				system("cls");
+				cout << "\n\n\n";
+				Print_Tree(root);
+				cout << "\n\t\tВывод завершен!\n\n";
+			}
+			system("pause");
+			system("cls");
+			goto menu;
+		}
+
+		case 3:
+		{
+			if (root == NULL)
+			{
+				cout << "\n\t\tУдалять нечего!\n\n";
+			}
+			else
+			{
+				root = Delete_Tree(root);
+				cout << "\n\t\tДерево удалено!\n\n";
+			}
+			system("pause");
+			system("cls");
+			goto menu;
+		}
+
+		default:
+		{
+			cout << "Происходит выход...\n\n";
+		}
 	}
-
-	case 2:
-	{
-		Print_Tree(root);
-		system("pause");
-		cout << "\n\t\tВывод завершен!\n\n";
-		system("cls");
-		goto menu;
-	}
-
-	default:
-	{
-		cout << "Происходит выход...\n\n";
-	}
-	}
-
-
-
-
 
 	return 0;
 }
 
-//Функция внесения данных
-void Add_Branch(Tree*& Branch, int value)
+
+void Add_Branch(struct Tree*& Branch, int value)
 {
 	if (Branch == NULL)
 	{
@@ -89,21 +112,35 @@ void Add_Branch(Tree*& Branch, int value)
 		}
 	}
 }
+	
 
-
-void Print_Tree(Tree* Branch)
+void Print_Tree(struct Tree* Branch)
 {
 	if (Branch == NULL)
 	{
 		return;
 	}
-	tabs += 5;
+	tabs += 1;
 	Print_Tree(Branch->RightBranch);
 	for (int i = 0; i < tabs; i++)
 	{
-		cout << " ";
+		cout << "\t";
 	}
 	cout << Branch->value << endl;
 	Print_Tree(Branch->LeftBranch);
 	tabs -= 5;
+}
+
+Tree* Delete_Tree(struct Tree* Branch)
+{
+	if (Branch == NULL)
+	{
+		return 0;
+	}
+	Delete_Tree(Branch->RightBranch);
+	
+	Delete_Tree(Branch->LeftBranch);
+	delete Branch;
+	Branch = NULL;
+	return Branch;
 }
