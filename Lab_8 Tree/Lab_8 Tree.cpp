@@ -128,7 +128,7 @@ void Print_Tree(struct Tree* Branch)
 	}
 	cout << Branch->value << endl;
 	Print_Tree(Branch->LeftBranch);
-	tabs -= 5;
+	tabs -= 1;
 }
 
 Tree* Delete_Tree(struct Tree* Branch)
