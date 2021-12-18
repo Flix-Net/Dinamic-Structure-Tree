@@ -16,6 +16,9 @@ struct Tree
 void Add_Branch(struct Tree*& Branch, int value);
 void Print_Tree(struct Tree* Branch);
 Tree* Delete_Tree(struct Tree* Branch);
+void Preorder(struct Tree* Branch);
+void Postorder(struct Tree* Branch);
+void Inorder(struct Tree* Branch);
 
 int main()
 {
@@ -30,60 +33,82 @@ menu:
 		<< "1 - Добавление в дерево;\n"
 		<< "2 - Вывод дерева;\n"
 		<< "3 - Срубить дерево;\n"
+		<< "4 - Обходы дерева;\n"
 		<< "Выбор: ";
 	cin >> cin_menu;
 
 
 	switch (cin_menu)
 	{
-		case 1:
-		{
-			cout << "Введите значение: "; cin >> value;
-			Add_Branch(root, value);
-			cout << "\n\t\tДобавление выполнено!\n\n";
-			system("pause");
-			system("cls");
-			goto menu;
-		}
+	case 1:
+	{
+		cout << "Введите значение: "; cin >> value;
+		Add_Branch(root, value);
+		/*cout << "\n\t\tДобавление выполнено!\n\n";
+		system("pause");*/
+		system("cls");
+		goto menu;
+	}
 
-		case 2:
+	case 2:
+	{
+		if (root == NULL)
 		{
-			if (root == NULL)
-			{
-				cout << "\n\t\tВыводить нечего!\n\n";
-			}
-			else
-			{
-				system("cls");
-				cout << "\n\n\n";
-				Print_Tree(root);
-				cout << "\n\t\tВывод завершен!\n\n";
-			}
-			system("pause");
+			cout << "\n\t\tВыводить нечего!\n\n";
+		}
+		else
+		{
 			system("cls");
-			goto menu;
+			cout << "\n\n\n";
+			Print_Tree(root);
+			cout << "\n\t\tВывод завершен!\n\n";
 		}
+		system("pause");
+		system("cls");
+		goto menu;
+	}
 
-		case 3:
+	case 3:
+	{
+		if (root == NULL)
 		{
-			if (root == NULL)
-			{
-				cout << "\n\t\tУдалять нечего!\n\n";
-			}
-			else
-			{
-				root = Delete_Tree(root);
-				cout << "\n\t\tДерево удалено!\n\n";
-			}
-			system("pause");
-			system("cls");
-			goto menu;
+			cout << "\n\t\tУдалять нечего!\n\n";
 		}
+		else
+		{
+			root = Delete_Tree(root);
+			cout << "\n\t\tДерево удалено!\n\n";
+		}
+		system("pause");
+		system("cls");
+		goto menu;
+	}
 
-		default:
+	case 4:
+	{
+		if (root == NULL)
 		{
-			cout << "Происходит выход...\n\n";
+			cout << "\n\t\tОбходить нечего!\n\n";
 		}
+		else
+		{
+			cout << "\nПоследовательный (Inorder) = ";
+			Inorder(root);
+			cout << "\nНисходящий      (Preorder) = ";
+			Preorder(root);
+			cout << "\nВосходящий     (Postorder) = ";
+			Postorder(root);
+			cout << endl << endl;
+		}
+		system("pause");
+		system("cls");
+		goto menu;
+	}
+
+	default:
+	{
+		cout << "Происходит выход...\n\n";
+	}
 	}
 
 	return 0;
@@ -105,6 +130,7 @@ void Add_Branch(struct Tree*& Branch, int value)
 		if (value == Branch->value)
 		{
 			cout << "\n\t\tТакое значение уже есть в дереве!\n\n";
+			system("pause");
 			return;
 		}
 		else
@@ -120,7 +146,7 @@ void Add_Branch(struct Tree*& Branch, int value)
 		}
 	}
 }
-	
+
 
 void Print_Tree(struct Tree* Branch)
 {
@@ -146,9 +172,48 @@ Tree* Delete_Tree(struct Tree* Branch)
 		return 0;
 	}
 	Delete_Tree(Branch->RightBranch);
-	
+
 	Delete_Tree(Branch->LeftBranch);
 	delete Branch;
 	Branch = NULL;
 	return Branch;
+}
+
+void Preorder(struct Tree* Branch)
+{
+	if (Branch == NULL)
+	{
+		return;
+	}
+	cout << Branch->value << " ";
+	Preorder(Branch->LeftBranch);
+	Preorder(Branch->RightBranch);
+}
+
+void Postorder(struct Tree* Branch)
+{
+	if (Branch == NULL)
+	{
+		return;
+	}
+	else
+	{
+		Postorder(Branch->LeftBranch);
+		Postorder(Branch->RightBranch);
+		cout << Branch->value << " ";
+	}
+}
+
+void Inorder(struct Tree* Branch)
+{
+	if (Branch == NULL)
+	{
+		return;
+	}
+	else
+	{
+		Inorder(Branch->LeftBranch);
+		cout << Branch->value << " ";
+		Inorder(Branch->RightBranch);
+	}
 }
