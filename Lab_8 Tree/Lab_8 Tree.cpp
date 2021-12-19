@@ -39,6 +39,7 @@ menu:
 		<< "2 - Вывод дерева;\n"
 		<< "3 - Срубить дерево;\n"
 		<< "4 - Обходы дерева;\n"
+		<< "5 - Поиск в дереве;\n"
 		<< "Выбор: ";
 	cin >> cin_menu;
 
@@ -66,6 +67,7 @@ menu:
 			system("cls");
 			cout << "\n\n\n";
 			Print_Tree(root);
+			count_leaf = 0;
 			Count_Leaf(root, *pcount_leaf);
 			cout << "\n\t\tКол-во элементов в дереве: " << count_value;
 			cout << "\n\t\tКол-во листьев   в дереве: " << count_leaf;
@@ -294,9 +296,15 @@ void Find_Value(struct Tree* Branch, int value)
 	if (value == Branch->value)
 	{
 		cout << "\n\t\tЭлемент найден!\n"
-			<< "\n\t\tBranch->value        = " << Branch->value
-			<< "\n\t\tBranch->LeftBranch   = " << Branch->LeftBranch
-			<< "\n\t\tBranch->RightBranch  = " << Branch->RightBranch << endl << endl;
+			<< "\n\t\tBranch->value  = " << Branch->value << endl;
+		if (Branch->LeftBranch != NULL)
+		{
+			cout << "\n\t\tBranch->LeftBranch   = " << Branch->LeftBranch->value << endl;
+		}
+		if (Branch->RightBranch != NULL)
+		{
+			cout << "\n\t\tBranch->RightBranch  = " << Branch->RightBranch->value << endl;
+		}
 		return;
 	}
 	if (value > Branch->value)
