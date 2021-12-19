@@ -21,6 +21,7 @@ void Postorder(struct Tree* Branch);
 void Inorder(struct Tree* Branch);
 void Count_Leaf(struct Tree* Branch, int& count_leaf);
 int Level(struct Tree* Branch);
+void Find_Value(struct Tree* Branch, int value);
 
 int main()
 {
@@ -107,6 +108,22 @@ menu:
 			cout << "\nВосходящий     (Postorder) = ";
 			Postorder(root);
 			cout << endl << endl;
+		}
+		system("pause");
+		system("cls");
+		goto menu;
+	}
+
+	case 5:
+	{
+		if (root == NULL)
+		{
+			cout << "\n\t\tСоздайте дерево!\n\n";
+		}
+		else
+		{
+			cout << "Введите значение: "; cin >> value;
+			Find_Value(root, value);
 		}
 		system("pause");
 		system("cls");
@@ -267,7 +284,30 @@ int Level(struct Tree* Branch)
 	}
 }
 
-
+void Find_Value(struct Tree* Branch, int value)
+{
+	if (Branch == NULL)
+	{
+		cout << "\n\t\tУказанное значение не найдено!\n\n";
+		return;
+	}
+	if (value == Branch->value)
+	{
+		cout << "\n\t\tЭлемент найден!\n"
+			<< "\n\t\tBranch->value        = " << Branch->value
+			<< "\n\t\tBranch->LeftBranch   = " << Branch->LeftBranch
+			<< "\n\t\tBranch->RightBranch  = " << Branch->RightBranch << endl << endl;
+		return;
+	}
+	if (value > Branch->value)
+	{
+		Find_Value(Branch->RightBranch, value);
+	}
+	else
+	{
+		Find_Value(Branch->LeftBranch, value);
+	}
+}
 
 
 
