@@ -22,6 +22,7 @@ void Inorder(struct Tree* Branch);
 void Count_Leaf(struct Tree* Branch, int& count_leaf);
 int Level(struct Tree* Branch);
 void Find_Value(struct Tree* Branch, int value);
+void Find_Parent(struct Tree* Branch, int value);
 
 int main()
 {
@@ -69,9 +70,9 @@ menu:
 			Print_Tree(root);
 			count_leaf = 0;
 			Count_Leaf(root, *pcount_leaf);
-			cout << "\n\t\tКол-во элементов в дереве: " << count_value;
-			cout << "\n\t\tКол-во листьев   в дереве: " << count_leaf;
-			cout << "\n\t\tКол-во уровней   в дереве: " << Level(root);
+			cout << "\n\t\tКол-во узлов   в дереве: " << count_value;
+			cout << "\n\t\tКол-во листьев в дереве: " << count_leaf;
+			cout << "\n\t\tКол-во уровней в дереве: " << Level(root);
 			cout << "\n\t\tВывод завершен!\n\n";
 		}
 		system("pause");
@@ -88,6 +89,7 @@ menu:
 		else
 		{
 			root = Delete_Tree(root);
+			count_value = 0;
 			cout << "\n\t\tДерево удалено!\n\n";
 		}
 		system("pause");
@@ -127,7 +129,7 @@ menu:
 			cout << "Введите значение: "; cin >> value;
 			Find_Value(root, value);
 		}
-		system("pause");
+		cout << endl; system("pause");
 		system("cls");
 		goto menu;
 	}
@@ -295,8 +297,7 @@ void Find_Value(struct Tree* Branch, int value)
 	}
 	if (value == Branch->value)
 	{
-		cout << "\n\t\tЭлемент найден!\n"
-			<< "\n\t\tBranch->value  = " << Branch->value << endl;
+		cout << "\n\t\tBranch->value  = " << Branch->value << endl;
 		if (Branch->LeftBranch != NULL)
 		{
 			cout << "\n\t\tBranch->LeftBranch   = " << Branch->LeftBranch->value << endl;
@@ -309,14 +310,33 @@ void Find_Value(struct Tree* Branch, int value)
 	}
 	if (value > Branch->value)
 	{
+		Find_Parent(Branch, value);
 		Find_Value(Branch->RightBranch, value);
 	}
 	else
 	{
+		Find_Parent(Branch, value);
 		Find_Value(Branch->LeftBranch, value);
 	}
 }
 
+void Find_Parent(struct Tree* Branch, int value)
+{
+	if (Branch->RightBranch != NULL)
+	{
+		if (Branch->RightBranch->value == value)
+		{
+			cout << "\n\t\tРодитель  = " << Branch->value << endl;
+		}
+	}
 
+	if (Branch->LeftBranch != NULL)
+	{
+		if (Branch->LeftBranch->value == value)
+		{
+			cout << "\n\t\tРодитель  = " << Branch->value << endl;
+		}
+	}
+}
 
 
