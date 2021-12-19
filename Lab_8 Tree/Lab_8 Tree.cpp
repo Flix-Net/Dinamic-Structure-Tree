@@ -1,26 +1,24 @@
 ﻿#include <iostream>
 using namespace std;
 
-int tabs = 0; //Кол-во отступов
-
-
+int tabs = 0; //Для создания отступов
+int kol_vo = 0;
+//Кол-во отступов высчитывается по кол-ву рекурсивного вхождения при выводе в фукцию print
 
 //Структура ветки
 struct Tree
 {
 	int value; //Поле данных
-	Tree* LeftBranch; //УКАЗАТЕЛЬ на левую веточку
-	Tree* RightBranch; //УКАЗАТЕЛЬ на правую веточку
+	Tree* LeftBranch; //УКАЗАТЕЛИ на соседние веточки
+	Tree* RightBranch;
 };
 
-void Add_Branch(struct Tree*& Branch, int value, int &count);
+void Add_Branch(struct Tree*& Branch, int value);
 void Print_Tree(struct Tree* Branch);
 Tree* Delete_Tree(struct Tree* Branch);
 void Preorder(struct Tree* Branch);
 void Postorder(struct Tree* Branch);
 void Inorder(struct Tree* Branch);
-void Count_Leaf(struct Tree* Branch, int& count_leaf);
-int Level(struct Tree* Branch);
 
 int main()
 {
@@ -28,8 +26,6 @@ int main()
 
 	Tree* root = NULL;
 	int value;
-	int count_value = 0, count_leaf = 0;
-	int* pcount_value = &count_value, *pcount_leaf = &count_leaf;
 	int cin_menu = 0;
 
 menu:
@@ -47,7 +43,7 @@ menu:
 	case 1:
 	{
 		cout << "Введите значение: "; cin >> value;
-		Add_Branch(root, value,*pcount_value);
+		Add_Branch(root, value);
 		/*cout << "\n\t\tДобавление выполнено!\n\n";
 		system("pause");*/
 		system("cls");
@@ -65,10 +61,6 @@ menu:
 			system("cls");
 			cout << "\n\n\n";
 			Print_Tree(root);
-			Count_Leaf(root, *pcount_leaf);
-			cout << "\n\t\tКол-во элементов в дереве: " << count_value;
-			cout << "\n\t\tКол-во листьев   в дереве: " << count_leaf;
-			cout << "\n\t\tКол-во уровней   в дереве: " << Level(root);
 			cout << "\n\t\tВывод завершен!\n\n";
 		}
 		system("pause");
@@ -123,7 +115,7 @@ menu:
 }
 
 
-void Add_Branch(struct Tree*& Branch, int value, int &count_value)
+void Add_Branch(struct Tree*& Branch, int value)
 {
 	if (Branch == NULL)
 	{
@@ -131,7 +123,6 @@ void Add_Branch(struct Tree*& Branch, int value, int &count_value)
 		Branch->value = value;
 		Branch->LeftBranch = NULL;
 		Branch->RightBranch = NULL;
-		count_value++;
 		return;
 	}
 	else
@@ -146,15 +137,16 @@ void Add_Branch(struct Tree*& Branch, int value, int &count_value)
 		{
 			if (value < Branch->value)
 			{
-				Add_Branch(Branch->LeftBranch, value, count_value);
+				Add_Branch(Branch->LeftBranch, value);
 			}
 			else
 			{
-				Add_Branch(Branch->RightBranch, value, count_value);
+				Add_Branch(Branch->RightBranch, value);
 			}
 		}
 	}
 }
+
 
 void Print_Tree(struct Tree* Branch)
 {
@@ -225,50 +217,3 @@ void Inorder(struct Tree* Branch)
 		Inorder(Branch->RightBranch);
 	}
 }
-
-void Count_Leaf(struct Tree* Branch, int &count_leaf)
-{
-	if (Branch == NULL)
-	{
-		return;
-	}
-	if (Branch->LeftBranch == NULL and Branch->RightBranch == NULL)
-	{
-		count_leaf++;
-		return;
-	}
-	Count_Leaf(Branch->RightBranch, count_leaf);
-	Count_Leaf(Branch->LeftBranch, count_leaf);
-}
-
-int Level(struct Tree* Branch)
-{
-	if (Branch == NULL)
-	{
-		return 0;
-	}
-	else
-	{
-		if (Branch->LeftBranch == NULL && Branch->RightBranch == NULL)
-		{
-			return 0;
-		}
-		else
-		{
-			if (Level(Branch->LeftBranch) > Level(Branch->RightBranch)) 
-			{
-				return Level(Branch->LeftBranch) + 1;
-			}
-			else
-			{
-				return Level(Branch->RightBranch) + 1;
-			}
-		}
-	}
-}
-
-
-
-
-
-
